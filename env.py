@@ -578,8 +578,8 @@ def player_random(player_state, file_temp, file_per):
     # if np.random.rand() < 0.998:
     #     # binary_action[3] = 0
     #     binary_action[4] = 0
-    if np.random.rand() < 0.5:
-        binary_action[3] = 0
+    # if np.random.rand() < 0.5:
+    #     binary_action[3] = 0
 
     
     #print(binary_action)
