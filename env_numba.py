@@ -13,6 +13,21 @@ def initEnv():
     return env_state
 
 @nb.njit()
+def create_old_env():
+    env_state = np.zeros(ENV_LENGTH)
+    env_state[ENV_CARD_OPEN : ENV_ALL_PLAYER_CHIP] = -1
+
+    #KHU VỰC ĐIỀU CHỈNH
+    #điều chỉnh chip của người chơi, từ đó suy ra trạng thái của người chơi, nếu còn chip thì trạng thái là 1
+    env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE] = np.array([100, 900, 12, 16, 58, 60, 600, 27, 27])
+    env_state[ENV_ALL_PLAYER_STATUS : ENV_ALL_FIRST_CARD] = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1])
+    #đặt button liền trước người mình muốn làm button, khi vào game sẽ tự dịch button lúc khởi tạo bàn chơi
+    env_state[ENV_BUTTON_PLAYER] = -1            #người chơi ở vị trí đầu tiên giữ button
+
+    env_state[ENV_ALL_FIRST_CARD : ENV_BUTTON_PLAYER] = np.full(4*NUMBER_PLAYER, -1)
+    return env_state
+
+@nb.njit()
 def reset_round(old_env_state):
     env_state = np.zeros(ENV_LENGTH)
     #tính toán chip còn lại của người chơi, từ đó tính ra trạng thái của người chơi ở game mới
